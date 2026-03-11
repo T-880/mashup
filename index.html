@@ -1,13 +1,57 @@
 <!doctype html>
 <html lang="sv">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LiveMap Skåne</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/js/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LiveMap Skåne</title>
+</head>
+
+<body>
+
+  <header>
+    <h1>LiveMap Skåne</h1>
+  </header>
+
+  <div class="searchWrapper">
+    <h2>Hitta evenemang</h2>
+    <form id="searchForm">
+      <div class="field placeField">
+        <label for="placeInput">Plats</label>
+        <input type="text" id="placeInput" placeholder="Ex: Malmö" />
+      </div>
+
+      <div class="field startDateField">
+        <label for="startDate">Från datum</label>
+        <input type="date" id="startDate" />
+      </div>
+
+      <div class="field endDateField">
+        <label for="endDate">Till datum</label>
+        <input type="date" id="endDate" />
+      </div>
+
+      <div class="field categoryField">
+        <label for="categorySelect">Kategori</label>
+        <select id="categorySelect">
+          <option value="">Alla kategorier</option>
+          <option value="Music">Musik</option>
+          <option value="Sports">Sport</option>
+          <option value="Arts & Theatre">Teater</option>
+          <option value="Miscellaneous">Övrigt</option>
+        </select>
+      </div>
+
+      <button type="submit" class="searchButton">Sök evenemang</button>
+    </form>
+  </div>
+
+  <div id="mapContainer"></div>
+  <div id="spinner"></div>
+  <div id="eventsContainer"></div>
+
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+
 </html>
