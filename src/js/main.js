@@ -70,6 +70,29 @@ function renderMarkers(events) {
     }
 }
 
+function formatEventDate(dateString, timeString) {
+    const date = new Date(dateString + "T" + (timeString || "00:00:00"));
+
+    const options = {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    };
+
+    const formattedDate = date.toLocaleDateString("sv-SE", options);
+
+    if (timeString) {
+        const time = date.toLocaleTimeString("sv-SE", {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+        return `${formattedDate} kl. ${time}`;
+    }
+
+    return formattedDate;
+}
+
 function renderEventCards(events) {
     const container = document.getElementById("eventsContainer");
     container.innerHTML = "";
@@ -84,7 +107,7 @@ function renderEventCards(events) {
         card.innerHTML = `
       <img src="${image}" alt="${event.name}">
       <h3>${event.name}</h3>
-      <p>${event.dates.start.localDate}</p>
+      <p>${formatEventDate(event.dates.start.localDate, event.dates.start.localTime)}</p>
       <p>${venue?.name || "Okänd arena"}</p>
       <a href="${event.url}" target="_blank" rel="noopener">Mer information</a>
     `;
