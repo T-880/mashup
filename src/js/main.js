@@ -69,3 +69,41 @@ function renderMarkers(events) {
     map.fitBounds(group.getBounds().pad(0.2));
   }
 }
+
+document.getElementById("searchForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const place = document.getElementById("placeInput").value.trim();
+  const startDate = document.getElementById("startDate").value;
+  const endDate = document.getElementById("endDate").value;
+  const category = document.getElementById("categorySelect").value;
+
+  showLoadingSpinner();
+  const events = await fetchEvents({ category, startDate, endDate, place });
+  hideLoadingSpinner();
+
+  renderMarkers(events);
+
+  if (place) {
+    try {
+      const geoResp = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place + ", Skåne, Sweden")}`);
+      const geoData = await geoResp.json();
+      if (geoData.length) {
+        const lat = parseFloat(geoData[0].lat);
+        const lon = parseFloat(geoData[0].lon);
+        map.setView([lat, lon], 12);
+      } else {
+        alert("Platsen kunde inte hittas på kartan.");
+      }
+    } catch {
+      alert("Fel vid geokodning av platsen.");
+    }
+  } else {
+    map.setView([55.6050, 13.0038], 9);
+  }
+});
+
+(async () => {
+  const events = await fetchEvents();
+  renderMarkers(events);
+})();
