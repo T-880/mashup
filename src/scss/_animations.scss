@@ -1,0 +1,56 @@
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.eventCard {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.3s ease, box-shadow 0.3s ease;
+
+  &.show {
+    animation: fadeUp 0.6s forwards;
+  }
+
+  &:hover {
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.7);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #ff006e;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: none;
+  z-index: 1000;
+}
+
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  transition: opacity 0.8s ease, transform 0.3s ease;
+  opacity: 0;
+}
+
+.leaflet-interactive:hover {
+  fill: #00ffff !important;
+  stroke: #fff !important;
+  r: 12 !important;
+  cursor: pointer;
+}
