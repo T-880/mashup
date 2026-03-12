@@ -125,7 +125,7 @@ function renderEventCards(events) {
 
 const TM_API_KEY = "x4cCOD7dmBqja2AkM4bTsbzYa9WExx5O";
 
-async function fetchEvents({ category, startDate, endDate, place } = {}) {
+async function fetchEvents({ category, startDate, endDate, place, cities } = {}) {
     showLoadingSpinner();
     try {
         let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TM_API_KEY}&latlong=55.6050,13.0038&radius=120&unit=km&size=50`;
@@ -137,7 +137,29 @@ async function fetchEvents({ category, startDate, endDate, place } = {}) {
         const response = await fetch(url);
         if (!response.ok) throw new Error("API error " + response.status);
         const data = await response.json();
-        return data._embedded?.events || [];
+
+        let eventsData = data._embedded?.events || [];
+
+        if (cities && cities.length > 0) {
+      const knownCities = ["Köpenhamn","Malmö","Helsingborg","Lund"];
+    const selectedRealCities = cities.filter(c => c !== "Övriga");
+    const includeOthers = cities.includes("Övriga");
+
+      eventsData = eventsData.filter(event => {
+        const venue = event._embedded?.venues?.[0];
+        if (!venue || !venue.city?.name) return false;
+
+        const cityName = venue.city.name;
+
+if (selectedRealCities.includes(cityName)) return true;
+if (includeOthers && !knownCities.includes(cityName)) return true;
+
+        return false;
+      });
+    }
+
+    return eventsData;
+
     } catch (err) {
         console.error(err);
         alert("Kunde inte hämta evenemang.");
@@ -155,8 +177,11 @@ document.getElementById("searchForm").addEventListener("submit", async (e) => {
     const endDate = document.getElementById("endDate").value;
     const category = document.getElementById("categorySelect").value;
 
+      const cityCheckboxes = document.querySelectorAll('input[name="city"]:checked');
+  const selectedCities = Array.from(cityCheckboxes).map(cb => cb.value);
+
     showLoadingSpinner();
-    const events = await fetchEvents({ category, startDate, endDate, place });
+    const events = await fetchEvents({ category, startDate, endDate, place, cities: selectedCities });
     hideLoadingSpinner();
 
     renderMarkers(events);
