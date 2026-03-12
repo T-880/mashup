@@ -49,8 +49,14 @@
 }
 
 .leaflet-interactive:hover {
-  fill: #00ffff !important;
+  fill: #c400c4 !important;
   stroke: #fff !important;
   r: 12 !important;
   cursor: pointer;
+}
+
+.leaflet-interactive.active-marker {
+  fill: #c400c4 !important;
+  stroke: #fff !important;
+  r: 12 !important;
 }

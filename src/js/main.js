@@ -61,6 +61,11 @@ function renderMarkers(events) {
       <a href="${event.url}" target="_blank" rel="noopener">Biljetter</a>
     `);
 
+    marker.on("click", () => {
+        markers.forEach(m => m._path?.classList.remove("active-marker"));
+        marker._path?.classList.add("active-marker");
+        });
+
         markers.push(marker);
     });
 
