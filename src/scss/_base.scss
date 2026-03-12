@@ -1,0 +1,22 @@
+@use "variables";
+@use "mixins";
+@use "sass:color";
+
+body {
+  font-family: Poppins, sans-serif;
+  margin: 0;
+  background: variables.$background-light;
+  color: variables.$text-color;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+  background: variables.$card-bg;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+h1 {
+  margin: 0;
+  font-size: 2em;
+}
