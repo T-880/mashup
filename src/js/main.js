@@ -132,7 +132,7 @@ async function fetchEvents({ category, startDate, endDate, place, cities } = {})
         if (category) url += `&segmentName=${encodeURIComponent(category)}`;
         if (startDate) url += `&startDateTime=${startDate}T00:00:00Z`;
         if (endDate) url += `&endDateTime=${endDate}T23:59:59Z`;
-        if (place) url += `&city=${encodeURIComponent(place)}`;
+        if (place) url += `&keyword=${encodeURIComponent(place)}`;
 
         const response = await fetch(url);
         if (!response.ok) throw new Error("API error " + response.status);
@@ -188,20 +188,6 @@ document.getElementById("searchForm").addEventListener("submit", async (e) => {
     renderEventCards(events);
 
     if (place) {
-        try {
-            const geoResp = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place + ", Skåne, Sweden")}`);
-            const geoData = await geoResp.json();
-            if (geoData.length) {
-                const lat = parseFloat(geoData[0].lat);
-                const lon = parseFloat(geoData[0].lon);
-                map.setView([lat, lon], 12);
-            } else {
-                alert("Platsen kunde inte hittas på kartan.");
-            }
-        } catch {
-            alert("Fel vid geokodning av platsen.");
-        }
-    } else {
         map.setView([55.6050, 13.0038], 9);
     }
 });
