@@ -141,20 +141,37 @@ async function fetchEvents({ category, startDate, endDate, place, cities } = {})
         let eventsData = data._embedded?.events || [];
 
         if (cities && cities.length > 0) {
-      const knownCities = ["Köpenhamn","Malmö","Helsingborg","Lund"];
-    const selectedRealCities = cities.filter(c => c !== "Övriga");
+      const cityMap = {
+        "copenhagen": "Köpenhamn",
+                "copenhagen, dk": "Köpenhamn",
+                "københavn": "Köpenhamn",
+                "københavn s": "Köpenhamn",
+                "københavn k": "Köpenhamn",
+                "kløverparken": "Köpenhamn",
+                "malmo": "Malmö",
+                "malmö": "Malmö",
+                "helsingborg": "Helsingborg",
+                "lund": "Lund"
+                };
+    
+      const selectedRealCities = cities.filter(c => c !== "Övriga").map(c => c.toLowerCase());
     const includeOthers = cities.includes("Övriga");
+    const knownCities = Object.values(cityMap).map(c => c.toLowerCase());
 
       eventsData = eventsData.filter(event => {
         const venue = event._embedded?.venues?.[0];
         if (!venue || !venue.city?.name) return false;
 
-        const cityName = venue.city.name;
+let apiCity = (venue.city?.name || venue.state?.name || venue.name || venue.address?.line1 || "")
+                    .trim()
+                    .toLowerCase();
 
-if (selectedRealCities.includes(cityName)) return true;
-if (includeOthers && !knownCities.includes(cityName)) return true;
+        const cityName = cityMap[apiCity] || apiCity;
 
-        return false;
+const isSelected = selectedRealCities.includes(cityName.toLowerCase());
+                const isOther = includeOthers && !knownCities.includes(cityName.toLowerCase());
+
+                return isSelected || isOther;
       });
     }
 
