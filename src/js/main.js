@@ -6,6 +6,10 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import 'leaflet.markercluster';
+
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: markerIcon2x,
@@ -36,43 +40,63 @@ function clearMarkers() {
 }
 
 function renderMarkers(events) {
-    clearMarkers();
+   markers.forEach(marker => map.removeLayer(marker));
+    markers = [];
+
+    const markersCluster = L.markerClusterGroup();
+    
+    const cityFallback = {
+        "köpenhamn": [55.6761, 12.5683],
+        "copenhagen s": [55.675, 12.58],
+        "copenhagen k": [55.676, 12.57],
+        "kløverparken": [55.666, 12.62],
+        "malmö": [55.6050, 13.0038],
+        "malmo": [55.6050, 13.0038],
+        "helsingborg": [56.0465, 12.6945],
+        "lund": [55.7047, 13.1910],
+        "trelleborg": [55.378, 13.157],
+        "falsterbo": [55.385, 12.825]
+    };
 
     events.forEach(event => {
         const venue = event._embedded?.venues?.[0];
-        const { latitude, longitude } = venue?.location || {};
-        if (!latitude || !longitude) return;
+let latitude = venue?.location?.latitude;
+        let longitude = venue?.location?.longitude;
 
-        const marker = L.circleMarker([parseFloat(latitude), parseFloat(longitude)], {
-            radius: 8,
-            fillColor: "#ff006e",
-            color: "#fff",
-            weight: 2,
-            fillOpacity: 0.9,
-            opacity: 0,
-        }).addTo(map);
+        if (!latitude || !longitude) {
+           const cityName = (venue?.city?.name || "").trim().toLowerCase();
+            if (cityFallback[cityName]) {
+                const jitter = 0.002;
+                latitude = cityFallback[cityName][0] + (Math.random() - 0.5) * jitter;
+                longitude = cityFallback[cityName][1] + (Math.random() - 0.5) * jitter;
+            } else {
+                const jitter = 0.02;
+                latitude = 55.6050 + (Math.random() - 0.5) * jitter;
+                longitude = 13.0038 + (Math.random() - 0.5) * jitter;
+                console.log("Ingen koordinat/fallback:", event.name, cityName);
+            }
+        }
 
-        setTimeout(() => marker.setStyle({ opacity: 1 }), 50);
+        latitude = parseFloat(latitude);
+        longitude = parseFloat(longitude);
+        
+        const marker = L.marker([latitude, longitude]);
 
-        marker.bindPopup(`
-      <strong>${event.name}</strong><br>
-      ${venue.name}<br>
-      ${event.dates.start.localDate}<br>
-      <a href="${event.url}" target="_blank" rel="noopener">Biljetter</a>
-    `);
+        marker.bindPopup(`<strong>${event.name}</strong><br>${venue?.name || "Okänd arena"}<br>${event.dates.start.localDate}<br><a href="${event.url}" target="_blank" rel="noopener">Biljetter</a>`);
 
-    marker.on("click", () => {
-        markers.forEach(m => m._path?.classList.remove("active-marker"));
-        marker._path?.classList.add("active-marker");
-        });
-
+        markersCluster.addLayer(marker);
         markers.push(marker);
     });
+
+    map.addLayer(markersCluster);
 
     if (markers.length) {
         const group = L.featureGroup(markers);
         map.fitBounds(group.getBounds().pad(0.2));
     }
+
+    console.log("Totalt markerade events:", markers.length);
+
 }
 
 function formatEventDate(dateString, timeString) {
