@@ -62,8 +62,9 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
  * @param {number} lon - Longitud
  * @param {string} city - Stadens namn
  * @param {Object} weatherData - Väderdata från API
+ * @param {boolean} autoOpen - Om popupen ska öppnas automatiskt
  */
-function createMarker(lat, lon, city, weatherData) {
+function createMarker(lat, lon, city, weatherData, autoOpen = false) {
   const marker = L.marker([lat, lon], {
     icon: new L.Icon({
       iconUrl: markerIcon,
@@ -82,7 +83,13 @@ function createMarker(lat, lon, city, weatherData) {
     Vind: ${weatherData.wind.speed} m/s
   `;
 
+  if (autoOpen) {
+  marker.bindPopup(popupContent).openPopup();
+} else {
   marker.bindPopup(popupContent);
+}
+
+markers.push(marker);
 }
 
 /**
@@ -166,7 +173,7 @@ const place = document.getElementById("placeInput").value.trim();
         return;
     }
 
-    createMarker(coords.lat, coords.lon, place, weather);
+    createMarker(coords.lat, coords.lon, place, weather, true);
     map.setView([coords.lat, coords.lon], 10);
 
     hideLoadingSpinner();
