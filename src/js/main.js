@@ -150,15 +150,28 @@ const place = document.getElementById("placeInput").value.trim();
   if (!place) return;
 
     showLoadingSpinner();
-    const events = await fetchEvents({ category, startDate, endDate, place, cities: selectedCities });
-    hideLoadingSpinner();
-});
+    clearMarkers();
 
-(async () => {
-    const events = await fetchEvents();
-    renderMarkers(events);
-    renderEventCards(events);
-})();
+    const coords = await fetchCoordinates(place);
+    if (!coords) {
+        alert("Hittade ingen plats med det namnet.");
+        hideLoadingSpinner();
+        return;
+    }
+
+    const weather = await fetchWeather(place);
+    if (!weather) {
+        alert("Kunde inte hämta väderdata för platsen.");
+        hideLoadingSpinner();
+        return;
+    }
+
+    createMarker(coords.lat, coords.lon, place, weather);
+    map.setView([coords.lat, coords.lon], 10);
+
+    hideLoadingSpinner();
+
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   renderWeatherMarkers();
