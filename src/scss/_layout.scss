@@ -20,49 +20,43 @@
 
   #searchForm {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 12px;
     align-items: end;
 
-    .field {
-      display: flex;
-      flex-direction: column;
+ input#placeInput {
+    height: 48px;
+    padding: 0 14px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid variables.$border-color;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
 
-      label {
-        font-size: 14px;
-        margin-bottom: 5px;
-        color: color.scale(variables.$text-color, $lightness: -20%);
-      }
-
-      input,
-      select {
-        padding: 12px;
-        border-radius: 8px;
-        border: 1px solid variables.$border-color;
-        font-size: 14px;
-        width: 100%;
-        box-sizing: border-box;
+    &:focus {
+      border-color: variables.$accent-start;
+      box-shadow: 0 0 6px rgba(0,0,0,0.12);
+      outline: none;
       }
     }
 
     .searchButton {
-      grid-column: span 4;
       background: linear-gradient(90deg, variables.$accent-start, variables.$accent-end);
       color: white;
       border: none;
-      padding: 14px;
       border-radius: 8px;
       cursor: pointer;
       font-size: 16px;
       font-weight: 600;
       transition: all 0.3s ease;
+      height: 48px;
 
       &:hover {
         background: linear-gradient(90deg, variables.$accent-end, variables.$accent-end);
         transform: scale(1.03);
       }
     }
-   }
+  }
 }
 
 #mapContainer {
