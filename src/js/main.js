@@ -76,17 +76,27 @@ function createMarker(lat, lon, city, weatherData, autoOpen = false) {
     })
   }).addTo(map);
 
+const iconCode = weatherData.weather[0].icon;
+const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+  
   const popupContent = `
     <strong>${city}</strong><br>
+    <img src="${iconUrl}" alt="väderikon"><br>
     Temp: ${weatherData.main.temp}°C<br>
     Väder: ${weatherData.weather[0].description}<br>
     Vind: ${weatherData.wind.speed} m/s
   `;
 
   if (autoOpen) {
-  marker.bindPopup(popupContent).openPopup();
+  marker.bindPopup(popupContent,{
+    autoPan: true,
+    autoPanPadding: [50, 50]
+  }).openPopup();
 } else {
-  marker.bindPopup(popupContent);
+    marker.bindPopup(popupContent, {
+    autoPan: true,
+    autoPanPadding: [50, 50]
+  });
 }
 
 markers.push(marker);
