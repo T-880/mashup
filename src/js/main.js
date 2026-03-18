@@ -13,6 +13,33 @@ L.Icon.Default.mergeOptions({
     shadowUrl: markerShadow
 });
 
+const apiKey = '3a47e8306ddbe5a1ed0d82b79603a928'; 
+
+async function fetchCoordinates(city) {
+  try {
+    const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`);
+    if (!response.ok) throw new Error("Geocoding API error " + response.status);
+    const data = await response.json();
+    if (!data.length) return null;
+    return { lat: data[0].lat, lon: data[0].lon };
+  } catch (error) {
+    console.error("Error fetching coordinates:", error);
+    return null;
+  }
+}
+
+async function fetchWeather(city) {
+  try {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=sv`);
+    if (!response.ok) throw new Error("Weather API error " + response.status);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+    return null;
+  }
+}
+
 const map = L.map('mapContainer').setView([55.6050, 13.0038], 9);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
