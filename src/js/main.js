@@ -46,6 +46,38 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+function createMarker(lat, lon, city, weatherData) {
+  const marker = L.marker([lat, lon], {
+    icon: new L.Icon({
+      iconUrl: markerIcon,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowUrl: markerShadow,
+      shadowSize: [41, 41]
+    })
+  }).addTo(map);
+
+  const popupContent = `
+    <strong>${city}</strong><br>
+    Temp: ${weatherData.main.temp}°C<br>
+    Väder: ${weatherData.weather[0].description}<br>
+    Vind: ${weatherData.wind.speed} m/s
+  `;
+
+  marker.bindPopup(popupContent);
+}
+
+async function addCityMarker(city) {
+  const coords = await fetchCoordinates(city);
+  if (!coords) return;
+
+  const weather = await fetchWeather(city);
+  if (!weather) return;
+
+  createMarker(coords.lat, coords.lon, city, weather);
+}
+
 const spinner = document.getElementById("spinner");
 let markers = [];
 
