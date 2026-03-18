@@ -56,6 +56,12 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+function getMarkerColor(temp) {
+  if (temp < 5) return "blue";
+  if (temp < 15) return "yellow";
+  return "red";
+}
+
 /**
  * Skapar en markör på Leaflet-kartan
  * @param {number} lat - Latitud
@@ -65,9 +71,13 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
  * @param {boolean} autoOpen - Om popupen ska öppnas automatiskt
  */
 function createMarker(lat, lon, city, weatherData, autoOpen = false) {
-  const marker = L.marker([lat, lon], {
+  
+  const temp = weatherData.main.temp;
+  const color = getMarkerColor(temp);
+  
+    const marker = L.marker([lat, lon], {
     icon: new L.Icon({
-      iconUrl: markerIcon,
+      iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${color}.png`,
       iconSize: [25, 41],
       iconAnchor: [12, 41],
       popupAnchor: [1, -34],
