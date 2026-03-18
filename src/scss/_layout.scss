@@ -45,35 +45,6 @@
       }
     }
 
-    .cityField {
-  display: flex;
-  flex-direction: column;
-  grid-column: span 4;
-
-  .checkboxGroup {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 10px;
-    overflow-x: auto;
-    justify-content: center;
-
-    label {
-      font-size: 14px;
-      color: color.scale(variables.$text-color, $lightness: -20%);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      white-space: nowrap;
-
-      input[type="checkbox"] {
-        width: 16px;
-        height: 16px;
-        cursor: pointer;
-      }
-    }
-  }
-}
-
     .searchButton {
       grid-column: span 4;
       background: linear-gradient(90deg, variables.$accent-start, variables.$accent-end);
@@ -91,7 +62,7 @@
         transform: scale(1.03);
       }
     }
-  }
+   }
 }
 
 #mapContainer {
@@ -102,72 +73,6 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-}
-
-#eventsContainer {
-  max-width: 900px;
-  margin: 20px auto 40px auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px 0 40px 0;
-}
-
-.eventCard {
-  background: #fff;
-  color: #111;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 0;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
-
-  img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-  }
-
-  h3 {
-    padding: 12px;
-    margin: 0;
-    flex-grow: 1;
-    font-size: 16px;
-  }
-
-  p {
-    padding: 0 12px;
-    margin: 5px 0;
-    font-size: 14px;
-  }
-
-  a {
-    display: block;
-    background: linear-gradient(90deg, #ff006e, #c400c4);
-    color: white;
-    text-align: center;
-    padding: 12px;
-    margin: 12px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: linear-gradient(90deg, #c400c4, #c400c4);
-      transform: scale(1.03);
-    }
-  }
-}
-
-.eventCard.show {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 @include mixins.respond-mobile {
@@ -190,27 +95,6 @@
       grid-template-columns: 1fr 1fr;
       gap: 12px;
 
-      .startDateField { grid-column: 1 / 2; }
-      .endDateField { grid-column: 2 / 3; }
-
-      .placeField,
-      .categoryField,
-      .cityField,
-      .searchButton { grid-column: 1 / -1; }
-
-      .field input,
-      .field select,
-      .searchButton { width: 100%; box-sizing: border-box; }
-
-      .cityField .checkboxGroup { max-height: 100px; overflow-y: auto; }
     }
-  }
-
-  #eventsContainer {
-    order: 3;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
-    padding: 5px 0;
-    width: 100%;
   }
 }
