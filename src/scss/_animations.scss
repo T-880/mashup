@@ -41,22 +41,3 @@
   display: none;
   z-index: 1000;
 }
-
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-  transition: opacity 0.8s ease, transform 0.3s ease;
-  opacity: 0;
-}
-
-.leaflet-interactive:hover {
-  fill: #c400c4 !important;
-  stroke: #fff !important;
-  r: 12 !important;
-  cursor: pointer;
-}
-
-.leaflet-interactive.active-marker {
-  fill: #c400c4 !important;
-  stroke: #fff !important;
-  r: 12 !important;
-}

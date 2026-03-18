@@ -78,6 +78,11 @@ async function addCityMarker(city) {
   createMarker(coords.lat, coords.lon, city, weather);
 }
 
+function renderWeatherMarkers() {
+  const cities = ["Malmö", "Helsingborg", "Lund", "Kristianstad", "Trelleborg", "Ystad"];
+  cities.forEach(addCityMarker);
+}
+
 const spinner = document.getElementById("spinner");
 let markers = [];
 
@@ -97,24 +102,12 @@ function clearMarkers() {
 document.getElementById("searchForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const place = document.getElementById("placeInput").value.trim();
-    const startDate = document.getElementById("startDate").value;
-    const endDate = document.getElementById("endDate").value;
-    const category = document.getElementById("categorySelect").value;
-
-      const cityCheckboxes = document.querySelectorAll('input[name="city"]:checked');
-  const selectedCities = Array.from(cityCheckboxes).map(cb => cb.value);
+const place = document.getElementById("placeInput").value.trim();
+  if (!place) return;
 
     showLoadingSpinner();
     const events = await fetchEvents({ category, startDate, endDate, place, cities: selectedCities });
     hideLoadingSpinner();
-
-    renderMarkers(events);
-    renderEventCards(events);
-
-    if (place) {
-        map.setView([55.6050, 13.0038], 9);
-    }
 });
 
 (async () => {
@@ -122,3 +115,8 @@ document.getElementById("searchForm").addEventListener("submit", async (e) => {
     renderMarkers(events);
     renderEventCards(events);
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderWeatherMarkers();
+  hideLoadingSpinner();
+});
