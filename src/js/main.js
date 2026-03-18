@@ -15,6 +15,11 @@ L.Icon.Default.mergeOptions({
 
 const apiKey = '3a47e8306ddbe5a1ed0d82b79603a928'; 
 
+/**
+ * Hämtar koordinater för en stad via OpenWeather Geocoding API
+ * @param {string} city - Namnet på staden
+ * @returns {Promise<{lat: number, lon: number} | null>} - Latitud och longitud eller null om ingen data
+ */
 async function fetchCoordinates(city) {
   try {
     const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`);
@@ -28,6 +33,11 @@ async function fetchCoordinates(city) {
   }
 }
 
+/**
+ * Hämtar väderdata för en stad via OpenWeather Weather API
+ * @param {string} city - Namnet på staden
+ * @returns {Promise<Object|null>} - Weather API-respons eller null
+ */
 async function fetchWeather(city) {
   try {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=sv`);
@@ -46,6 +56,13 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+/**
+ * Skapar en markör på Leaflet-kartan
+ * @param {number} lat - Latitud
+ * @param {number} lon - Longitud
+ * @param {string} city - Stadens namn
+ * @param {Object} weatherData - Väderdata från API
+ */
 function createMarker(lat, lon, city, weatherData) {
   const marker = L.marker([lat, lon], {
     icon: new L.Icon({
@@ -68,6 +85,9 @@ function createMarker(lat, lon, city, weatherData) {
   marker.bindPopup(popupContent);
 }
 
+/**
+ * Renderar markörer för fördefinierade städer
+ */
 async function addCityMarker(city) {
   const coords = await fetchCoordinates(city);
   if (!coords) return;
@@ -86,14 +106,23 @@ function renderWeatherMarkers() {
 const spinner = document.getElementById("spinner");
 let markers = [];
 
+/**
+ * Visar loadingspinner
+ */
 function showLoadingSpinner() {
     spinner.style.display = "block";
 }
 
+/**
+ * Döljer loadingspinner
+ */
 function hideLoadingSpinner() {
     spinner.style.display = "none";
 }
 
+/**
+ * Tar bort alla markers från kartan
+ */
 function clearMarkers() {
     markers.forEach(marker => map.removeLayer(marker));
     markers = [];
