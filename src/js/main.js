@@ -103,6 +103,21 @@ function renderWeatherMarkers() {
   cities.forEach(addCityMarker);
 }
 
+const skaneCitiesCoords = [
+  { lat: 55.6050, lon: 13.0038 }, 
+  { lat: 56.0465, lon: 12.6945 }, 
+  { lat: 55.7047, lon: 13.1910 }, 
+  { lat: 56.0396, lon: 14.1562 }, 
+  { lat: 55.3780, lon: 13.1570 }, 
+  { lat: 55.4290, lon: 13.8200 }, 
+];
+
+const bounds = L.latLngBounds(
+  skaneCitiesCoords.map(city => [city.lat, city.lon])
+);
+
+map.fitBounds(bounds.pad(0.1));
+
 const spinner = document.getElementById("spinner");
 let markers = [];
 
