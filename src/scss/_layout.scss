@@ -51,10 +51,6 @@
       transition: all 0.3s ease;
       height: 48px;
 
-      &:hover {
-        background: linear-gradient(90deg, variables.$accent-end, variables.$accent-end);
-        transform: scale(1.03);
-      }
     }
   }
 }
