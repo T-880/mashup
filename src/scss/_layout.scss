@@ -4,107 +4,112 @@
 
 html,
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
-  padding: 15px;
-  text-align: center;
-  background: variables.$card-bg;
+    padding: 15px;
+    text-align: center;
+    background: variables.$card-bg;
 }
 
 .searchWrapper {
-  background: variables.$card-bg;
-  max-width: variables.$max-width;
-  width: 100%;
-  margin: 15px auto; 
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  box-sizing: border-box;
-  transition: all 0.3s ease;
-
-  h2 {
-    margin-bottom: 20px;
-    color: variables.$text-color;
-    text-align: center;
-  }
-
-  #searchForm {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    align-items: end;
-
- input#placeInput {
-    height: 48px;
-    padding: 0 14px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid variables.$border-color;
+    padding: 15px;
+    background: variables.$card-bg;
+    max-width: variables.$max-width;
+    width: 100%;
+    margin: 15px auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     box-sizing: border-box;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 
-    &:focus {
-      border-color: variables.$accent-start;
-      box-shadow: 0 0 6px rgba(0,0,0,0.12);
-      outline: none;
-      }
+    h2 {
+        margin-bottom: 20px;
+        color: variables.$text-color;
+        text-align: center;
     }
 
-    .searchButton {
-      background: linear-gradient(90deg, variables.$accent-start, variables.$accent-end);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      height: 48px;
+    #searchForm {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        align-items: end;
 
+        input#placeInput {
+            height: 48px;
+            padding: 0 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid variables.$border-color;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+
+            &:focus {
+                border-color: variables.$accent-start;
+                box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
+                outline: none;
+            }
+        }
+
+        .searchButton {
+            background: linear-gradient(90deg, variables.$accent-start, variables.$accent-end);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            height: 48px;
+
+        }
     }
-  }
 }
 
 #mapContainer {
-  flex-grow: 1; 
+    flex-grow: 1;
     max-width: 900px;
-  width: 100%;
-  margin: 0 auto 15px auto;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    width: 100%;
+    margin: 0 auto 15px auto;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .stickyFooter {
-  margin-top: auto; 
-  line-height: 30px;
-  width: 100%;
-  background: variables.$card-bg;
-  text-align: center;
-  font-size: 12px;
-  color: variables.$text-color;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+    margin-top: auto;
+    line-height: 30px;
+    width: 100%;
+    background: variables.$card-bg;
+    text-align: center;
+    font-size: 12px;
+    color: variables.$text-color;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
 }
 
 @include mixins.respond-mobile {
-  body { display: flex; flex-direction: column; min-height: 100vh;}
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
 
-  #mapContainer {
-    height: auto;
-    margin: 5px auto;
-  }
+    #mapContainer {
+        height: auto;
+        margin: 5px auto;
+    }
 
-  .searchWrapper {
-    padding: 15px;
-    margin: 5px auto;
-  }
+    .searchWrapper {
+        padding: 15px;
+        margin: 5px auto;
+    }
 }
