@@ -21,6 +21,12 @@ header {
     background: variables.$card-bg;
 }
 
+header a {
+  text-decoration: none; 
+  color: inherit;        
+  cursor: pointer;    
+}
+
 .searchWrapper {
     padding: 15px;
     background: variables.$card-bg;
