@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="sv">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkånesVäderKarta</title>
+  <script type="module" crossorigin src="/assets/index-DZnWOyF1.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BZoSOWN2.css">
+</head>
+
+<body>
+
+  <header>
+    <h1><a href="index.html">Skånes Väder Karta</a></h1>
+  </header>
+
+  <div class="searchWrapper">
+    <h2>Var vill du veta vädret i Skåne just nu?</h2>
+    <form id="searchForm">
+      <input type="text" id="placeInput" placeholder="Ex: Malmö, Lund, Helsingborg" />
+
+      <button type="submit" class="searchButton searchButtonAnimation">Sök</button>
+    </form>
+  </div>
+
+  <div class="sun"></div>
+  <div id="mapContainer"></div>
+  <div id="spinner"></div>
+
+  <footer class="stickyFooter">
+    <p>Data hämtas från OpenWeather API</p>
+  </footer>
+
+</body>
+
+</html>
