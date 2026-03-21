@@ -13,7 +13,7 @@ L.Icon.Default.mergeOptions({
     shadowUrl: markerShadow
 });
 
-const apiKey = '3a47e8306ddbe5a1ed0d82b79603a928'; 
+const apiKey = '3a47e8306ddbe5a1ed0d82b79603a928';
 
 /**
  * Hämtar koordinater för en stad via OpenWeather Geocoding API
@@ -21,16 +21,16 @@ const apiKey = '3a47e8306ddbe5a1ed0d82b79603a928';
  * @returns {Promise<{lat: number, lon: number} | null>} - Latitud och longitud eller null om ingen data
  */
 async function fetchCoordinates(city) {
-  try {
-    const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`);
-    if (!response.ok) throw new Error("Geocoding API error " + response.status);
-    const data = await response.json();
-    if (!data.length) return null;
-    return { lat: data[0].lat, lon: data[0].lon };
-  } catch (error) {
-    console.error("Error fetching coordinates:", error);
-    return null;
-  }
+    try {
+        const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`);
+        if (!response.ok) throw new Error("Geocoding API error " + response.status);
+        const data = await response.json();
+        if (!data.length) return null;
+        return { lat: data[0].lat, lon: data[0].lon };
+    } catch (error) {
+        console.error("Error fetching coordinates:", error);
+        return null;
+    }
 }
 
 /**
@@ -39,15 +39,15 @@ async function fetchCoordinates(city) {
  * @returns {Promise<Object|null>} - Weather API-respons eller null
  */
 async function fetchWeather(city) {
-  try {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=sv`);
-    if (!response.ok) throw new Error("Weather API error " + response.status);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching weather data:", error);
-    return null;
-  }
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=sv`);
+        if (!response.ok) throw new Error("Weather API error " + response.status);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching weather data:", error);
+        return null;
+    }
 }
 
 const map = L.map('mapContainer').setView([55.6050, 13.0038], 9);
@@ -57,9 +57,9 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 function getMarkerColor(temp) {
-  if (temp < 5) return "blue";
-  if (temp < 15) return "yellow";
-  return "red";
+    if (temp < 5) return "blue";
+    if (temp < 15) return "yellow";
+    return "red";
 }
 
 /**
@@ -71,25 +71,25 @@ function getMarkerColor(temp) {
  * @param {boolean} autoOpen - Om popupen ska öppnas automatiskt
  */
 function createMarker(lat, lon, city, weatherData, autoOpen = false) {
-  
-  const temp = weatherData.main.temp;
-  const color = getMarkerColor(temp);
-  
-    const marker = L.marker([lat, lon], {
-    icon: new L.Icon({
-      iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${color}.png`,
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowUrl: markerShadow,
-      shadowSize: [41, 41]
-    })
-  }).addTo(map);
 
-const iconCode = weatherData.weather[0].icon;
-const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-  
-  const popupContent = `
+    const temp = weatherData.main.temp;
+    const color = getMarkerColor(temp);
+
+    const marker = L.marker([lat, lon], {
+        icon: new L.Icon({
+            iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-${color}.png`,
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowUrl: markerShadow,
+            shadowSize: [41, 41]
+        })
+    }).addTo(map);
+
+    const iconCode = weatherData.weather[0].icon;
+    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+    const popupContent = `
     <strong>${city}</strong><br>
     <img src="${iconUrl}" alt="väderikon"><br>
     Temp: ${weatherData.main.temp}°C<br>
@@ -97,50 +97,50 @@ const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
     Vind: ${weatherData.wind.speed} m/s
   `;
 
-  if (autoOpen) {
-  marker.bindPopup(popupContent,{
-    autoPan: true,
-    autoPanPadding: [50, 50]
-  }).openPopup();
-} else {
-    marker.bindPopup(popupContent, {
-    autoPan: true,
-    autoPanPadding: [50, 50]
-  });
-}
+    if (autoOpen) {
+        marker.bindPopup(popupContent, {
+            autoPan: true,
+            autoPanPadding: [50, 50]
+        }).openPopup();
+    } else {
+        marker.bindPopup(popupContent, {
+            autoPan: true,
+            autoPanPadding: [50, 50]
+        });
+    }
 
-markers.push(marker);
+    markers.push(marker);
 }
 
 /**
  * Renderar markörer för fördefinierade städer
  */
 async function addCityMarker(city) {
-  const coords = await fetchCoordinates(city);
-  if (!coords) return;
+    const coords = await fetchCoordinates(city);
+    if (!coords) return;
 
-  const weather = await fetchWeather(city);
-  if (!weather) return;
+    const weather = await fetchWeather(city);
+    if (!weather) return;
 
-  createMarker(coords.lat, coords.lon, city, weather);
+    createMarker(coords.lat, coords.lon, city, weather);
 }
 
 function renderWeatherMarkers() {
-  const cities = ["Malmö", "Helsingborg", "Lund", "Kristianstad", "Trelleborg", "Ystad"];
-  cities.forEach(addCityMarker);
+    const cities = ["Malmö", "Helsingborg", "Lund", "Kristianstad", "Trelleborg", "Ystad"];
+    cities.forEach(addCityMarker);
 }
 
 const skaneCitiesCoords = [
-  { lat: 55.6050, lon: 13.0038 }, 
-  { lat: 56.0465, lon: 12.6945 }, 
-  { lat: 55.7047, lon: 13.1910 }, 
-  { lat: 56.0396, lon: 14.1562 }, 
-  { lat: 55.3780, lon: 13.1570 }, 
-  { lat: 55.4290, lon: 13.8200 }, 
+    { lat: 55.6050, lon: 13.0038 },
+    { lat: 56.0465, lon: 12.6945 },
+    { lat: 55.7047, lon: 13.1910 },
+    { lat: 56.0396, lon: 14.1562 },
+    { lat: 55.3780, lon: 13.1570 },
+    { lat: 55.4290, lon: 13.8200 },
 ];
 
 const bounds = L.latLngBounds(
-  skaneCitiesCoords.map(city => [city.lat, city.lon])
+    skaneCitiesCoords.map(city => [city.lat, city.lon])
 );
 
 map.fitBounds(bounds.pad(0.1));
@@ -173,8 +173,8 @@ function clearMarkers() {
 document.getElementById("searchForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-const place = document.getElementById("placeInput").value.trim();
-  if (!place) return;
+    const place = document.getElementById("placeInput").value.trim();
+    if (!place) return;
 
     showLoadingSpinner();
     clearMarkers();
@@ -182,6 +182,12 @@ const place = document.getElementById("placeInput").value.trim();
     const coords = await fetchCoordinates(place);
     if (!coords) {
         alert("Hittade ingen plats med det namnet.");
+        hideLoadingSpinner();
+        return;
+    }
+
+    if (!bounds.contains([coords.lat, coords.lon])) {
+        alert("Desvärre verkar denna plats inte ligga i Skåne");
         hideLoadingSpinner();
         return;
     }
@@ -201,6 +207,6 @@ const place = document.getElementById("placeInput").value.trim();
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  renderWeatherMarkers();
-  hideLoadingSpinner();
+    renderWeatherMarkers();
+    hideLoadingSpinner();
 });

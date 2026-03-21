@@ -1,50 +1,74 @@
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 #spinner {
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #ff006e;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: none;
-  z-index: 1000;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #ff006e;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: none;
+    z-index: 1000;
 }
 
 .sun {
-  position: absolute;
-  top: 20px; 
-  left: -50px;
-  width: 50px;
-  height: 50px;
-  background: radial-gradient(circle at 30% 30%, #FFD700, #FFA500);
-  border-radius: 50%;
-  z-index: 500;
-  animation: moveSun 20s linear infinite;
+    position: absolute;
+    top: 20px;
+    left: -50px;
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle at 30% 30%, #FFD700, #FFA500);
+    border-radius: 50%;
+    z-index: 500;
+    animation: moveSun 20s linear infinite;
 }
 
 @keyframes moveSun {
-  0% { left: -50px; top: 20px; }
-  50% { left: 50%; top: 10px; }
-  100% { left: 100%; top: 20px; }
+    0% {
+        left: -50px;
+        top: 20px;
+    }
+
+    50% {
+        left: 50%;
+        top: 10px;
+    }
+
+    100% {
+        left: 100%;
+        top: 20px;
+    }
 }
 
 .searchButtonAnimation {
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
 
-  &:hover {
-    animation: scaleUp 0.3s forwards;
-  }
+    &:hover {
+        animation: scaleUp 0.3s forwards;
+    }
 }
 
 @keyframes scaleUp {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-  100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.03);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
